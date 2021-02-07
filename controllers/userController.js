@@ -12,6 +12,7 @@ exports.findOrCreateUser = async token => {
 };
 
 const verifyAuthToken = async token => {
+  
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
