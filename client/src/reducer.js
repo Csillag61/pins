@@ -4,7 +4,13 @@ export default function reducer(state, {type, payload}){
           return {
              ...state,
              currentUser:payload
-    }
+    };
+    case "IS-LOGGED_IN":
+        return{
+        ...state,
+        isAuth:payload
+};
+    
     default: 
         return state
     }
