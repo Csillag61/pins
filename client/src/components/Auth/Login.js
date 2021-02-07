@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import { GraphQlClient} from 'graphql-request';
 import {GoogleLogin} from 'react-google-login';
 import { withStyles } from "@material-ui/core/styles";
-//import { ApolloClient } from 'apollo-client';
 import Typography from "@material-ui/core/Typography";
 import Context from '../../context';
 import {ME_QUERY} from '../../graphql/queries';
@@ -35,7 +34,7 @@ const Login = ({ classes }) => {
   return (
     <div className={ classes.root}>
     <Typography
-    component="h1"
+        component="h1"
         variant="h3"
         gutterBottom
         noWrap
@@ -44,6 +43,7 @@ const Login = ({ classes }) => {
     Welcome
     
     </Typography>
+
   <GoogleLogin 
   clientId="932114674960-4kgu9autk9vcho6ghhgmns8ffe3uuu77.apps.googleusercontent.com"
   onSuccess={ onSuccess }
