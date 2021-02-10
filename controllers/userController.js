@@ -1,33 +1,40 @@
 const User = require("../models/User");
+const { AuthenticationError } = require("apollo-server");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
-
-exports.findOrCreateUser = async token => {
-  // verify auth token
-  const googleUser = await verifyAuthToken(token);
-  // check if the user exists
+ 
+const findOrCreateUser = async token => {
+  if (!token) {
+    throw new AuthenticationError("No auth token provided");
+  }
+  const googleUser = await verifyGoogleToken(token);
+  console.log({ googleUser });
   const user = await checkIfUserExists(googleUser.email);
-  // if user exists, return them; otherwise, create new user in db
-  return user ? user : createNewUser(googleUser);
+  return user ? user : saveUser(googleUser);
 };
-
-const verifyAuthToken = async token => {
-  
+ 
+//const checkIfUserExists = async email => await User.findOne({ email }).exec();
+const checkIfUserExists = async email => {
+  const result = await User.findOne({ email }).exec();
+  return result;
+};
+const saveUser = googleUser => {
+  const { email, name, picture } = googleUser;
+  const user = { email, name, picture };
+  return new User(user).save();
+};
+ 
+const verifyGoogleToken = async token => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.OAUTH_CLIENT_ID
     });
+    console.log({ ticket });
     return ticket.getPayload();
   } catch (err) {
-    console.error("Error verifying auth token", err);
+    throw new Error("Error verifying Google Token", err);
   }
 };
-
-const checkIfUserExists = async email => await User.findOne({ email }).exec();
-
-const createNewUser = googleUser => {
-  const { name, email, picture } = googleUser;
-  const user = { name, email, picture };
-  return new User(user).save();
-};
+ 
+module.exports = { findOrCreateUser };
