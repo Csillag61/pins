@@ -8,10 +8,15 @@ import AddAPhotoIcon from "@material-ui/icons/AddAPhotoTwoTone";
 import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
 import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
-import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Context from "../../context";
 import { useClient } from "../../client";
 import { CREATE_PIN_MUTATION } from "../../graphql/mutations";
+
+/**
+ *
+ * @param {submitting} boolean sets state so multiple submits cannot take place simultaneously.
+ */
 
 const CreatePin = ({ classes }) => {
   const mobileSize = useMediaQuery("(max-width: 650px)");
@@ -32,7 +37,7 @@ const CreatePin = ({ classes }) => {
   const handleImageUpload = async () => {
     const data = new FormData();
     data.append("file", image);
-    data.append("upload_preset", "pins");
+    data.append("upload_preset", "geopins");
     data.append("cloud_name", "dskitphns");
     const res = await axios.post(
       "https://api.cloudinary.com/v1_1/dskitphns/image/upload",
@@ -48,7 +53,8 @@ const CreatePin = ({ classes }) => {
       const url = await handleImageUpload();
       const { latitude, longitude } = state.draft;
       const variables = { title, image: url, content, latitude, longitude };
-      await client.request(CREATE_PIN_MUTATION, variables);
+      const {createPin} = await client.request(CREATE_PIN_MUTATION, variables);
+      dispatch({ type: 'CREATE_PIN', payload: createPin }); 
       handleDeleteDraft();
     } catch (err) {
       setSubmitting(false);
