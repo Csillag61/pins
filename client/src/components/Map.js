@@ -21,6 +21,7 @@ import {
   PIN_DELETED_SUBSCRIPTION
 } from "../graphql/subscriptions";
 const differenceInMinutes = require('date-fns/differenceInMinutes')
+
 const INITIAL_VIEWPORT = {
   latitude: 35.158199909022834,
   longitude: -84.87738581406285,

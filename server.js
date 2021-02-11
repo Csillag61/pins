@@ -1,39 +1,43 @@
-const { ApolloServer } = require("apollo-server");
-const mongoose = require("mongoose");
-require("dotenv").config();
-const typeDefs = require("./typeDefs");
-const resolvers = require("./resolvers");
-const { findOrCreateUser } = require("./controllers/userController");
+const { ApolloServer } = require('apollo-server');
+require('dotenv').config();
+const mongoose = require('mongoose');
+
+const typeDefs = require('./typeDefs');
+const resolvers = require('./resolvers');
+const { findOrCreateUser } = require('./controllers/userController');
 
 mongoose
-.connect(process.env.MONGO_URI,{
-  useNewUrlParser:true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
- })
-.then(()=> console.log('DB connected!'))
-.catch(err => console.error(err));
+  .connect(process.env.MONGO_URI, {
+    //useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+         
+  })
+  .then(() => console.log('MongoDB connection established'))
+  .catch(err => console.log(err))
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  playground: true,
   context: async ({ req }) => {
-    let authToken = null;
-    let currentUser = null;
+    let authToken=null;
+    let currentUser=null;
     try {
       authToken = req.headers.authorization
       if (authToken) {
         // Find or create a User.
         currentUser = await findOrCreateUser(authToken)
       }
-    } catch {
-      console.error(`Unable to authenticate ${authToken}`)
+    } catch (err){
+      console.warn(
+        `Unable to authenticate using auth token: ${authToken}`,
+        err
+      );
     }
-    return { currentUser }
+    return { authToken, currentUser };
   }
 });
- 
-server.listen(process.env.PORT || 4000).then(({ url }) => {
-  console.log(`Server ready at ${url}`);
+
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`Server listening on ${url}`);
 });

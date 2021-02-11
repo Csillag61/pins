@@ -1,12 +1,15 @@
-import React, {useContext} from "react";
-import { GraphQLClient} from 'graphql-request';
-import {GoogleLogin} from 'react-google-login';
-import { withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import React, { useContext } from 'react';
+import { GraphQLClient } from 'graphql-request';
+import { GoogleLogin } from 'react-google-login';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
 import Context from '../../context';
-import {ME_QUERY} from '../../graphql/queries';
-import { LOGIN_USER }  from '../../actions';
-import {IS_LOGGED_IN}  from '../../actions';
+
+import { ME_QUERY } from '../../graphql/queries.js';
+import {
+  LOGIN_USER, IS_LOGGED_IN
+} from '../../actions';
 
 const Login = ({ classes }) => {
   const { dispatch } = useContext(Context);

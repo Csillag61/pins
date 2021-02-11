@@ -5,10 +5,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import MapIcon from "@material-ui/icons/Map";
 import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Context from '../context';
-import Signout from "./Auth/Signout";
 
-  /**
+import Context from '../context';
+import Signout from './Auth/Signout';
+
+/**
  * mobile: { display: none }
  */
 const Header = ({ classes }) => {
@@ -32,30 +33,29 @@ const Header = ({ classes }) => {
             </Typography>
           </div>
 
-        {currentUser && (
-          <div className={classes.grow}>
-            <img
-              className={classes.picture}
-              src={currentUser.picture}
-              alt={currentUser.name}
-            />
-            <Typography
-              className={mobileSize ? classes.mobile : ""}
-              variant="h5"
-              color="inherit"
-              noWrap
-            >
-              {currentUser.name}
-            </Typography>
-          </div>
-        )}
+          {currentUser && (
+            <div className={classes.grow}>
+              <img
+                className={classes.picture}
+                src={currentUser.picture}
+                alt={currentUser.name}
+              />
+              <Typography
+                className={mobileSize ? classes.mobile : ""}
+                variant="h5"
+                color="inherit"
+                noWrap
+              >
+                {currentUser.name}
+              </Typography>
+            </div>
+          )}
 
-        <Signout />
-      </Toolbar>
-    </AppBar>
+          <Signout />
+        </Toolbar>
+      </AppBar>
   </div>
-
-  );
+  )
 };
 
 const styles = theme => ({
@@ -68,7 +68,7 @@ const styles = theme => ({
     alignItems: "center"
   },
   icon: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing.unit,
     color: "green",
     fontSize: 45
   },
@@ -78,7 +78,7 @@ const styles = theme => ({
   picture: {
     height: "50px",
     borderRadius: "90%",
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing.unit * 2
   }
 });
 

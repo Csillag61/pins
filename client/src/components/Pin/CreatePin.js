@@ -37,7 +37,7 @@ const CreatePin = ({ classes }) => {
   const handleImageUpload = async () => {
     const data = new FormData();
     data.append("file", image);
-    data.append("upload_preset", "geopins");
+    data.append("upload_preset", "geopin");
     data.append("cloud_name", "dskitphns");
     const res = await axios.post(
       "https://api.cloudinary.com/v1_1/dskitphns/image/upload",

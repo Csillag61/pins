@@ -1,40 +1,19 @@
-const User = require("../models/User");
-const { AuthenticationError } = require("apollo-server");
-const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
- 
-const findOrCreateUser = async token => {
-  if (!token) {
-    throw new AuthenticationError("No auth token provided");
-  }
-  const googleUser = await verifyGoogleToken(token);
-  console.log({ googleUser });
+const User = require('../models/User');
+const { verifyAuthToken } = require('../middleware/authToken');
+
+exports.findOrCreateUser = async token => {
+  // verify auth token
+  const googleUser = await verifyAuthToken(token);
+  // check if the user exists
   const user = await checkIfUserExists(googleUser.email);
-  return user ? user : saveUser(googleUser);
+  // if user exists, return them; otherwise, create new user in db
+  return user ? user : createNewUser(googleUser);
 };
- 
-//const checkIfUserExists = async email => await User.findOne({ email }).exec();
-const checkIfUserExists = async email => {
-  const result = await User.findOne({ email }).exec();
-  return result;
-};
-const saveUser = googleUser => {
-  const { email, name, picture } = googleUser;
-  const user = { email, name, picture };
+
+const checkIfUserExists = async email => await User.findOne({ email }).exec();
+
+const createNewUser = googleUser => {
+  const { name, email, picture } = googleUser;
+  const user = { name, email, picture };
   return new User(user).save();
 };
- 
-const verifyGoogleToken = async token => {
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.OAUTH_CLIENT_ID
-    });
-    console.log({ ticket });
-    return ticket.getPayload();
-  } catch (err) {
-    throw new Error("Error verifying Google Token", err);
-  }
-};
- 
-module.exports = { findOrCreateUser };
