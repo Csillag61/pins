@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const typeDefs = require('./typeDefs');
 const resolvers = require('./resolvers');
 const { findOrCreateUser } = require('./controllers/userController');
+const HEADER_NAME = 'authorization';
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -19,11 +20,12 @@ mongoose
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  playground: true,
   context: async ({ req }) => {
     let authToken=null;
     let currentUser=null;
     try {
-      authToken = req.headers.authorization
+      authToken = req.headers[HEADER_NAME]
       if (authToken) {
         // Find or create a User.
         currentUser = await findOrCreateUser(authToken)

@@ -12,7 +12,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Context from "../../context";
 import { useClient } from "../../client";
 import { CREATE_PIN_MUTATION } from "../../graphql/mutations";
-
+import 'mapbox-gl/dist/mapbox-gl.css';
 /**
  *
  * @param {submitting} boolean sets state so multiple submits cannot take place simultaneously.

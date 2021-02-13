@@ -20,6 +20,9 @@ import {
   PIN_UPDATED_SUBSCRIPTION,
   PIN_DELETED_SUBSCRIPTION
 } from "../graphql/subscriptions";
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+
 const differenceInMinutes = require('date-fns/differenceInMinutes')
 
 const INITIAL_VIEWPORT = {
@@ -35,16 +38,14 @@ const Map = ({ classes }) => {
 
   useEffect(() => {
     getPins()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+     }, []);
 
   const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
   const [userPosition, setUserPosition] = useState(null);
 
   useEffect(() => {
     getUserPosition();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+     }, []);
 
   const [popup, setPopup] = useState(null);
 
@@ -54,7 +55,7 @@ const Map = ({ classes }) => {
       popup && state.pins.findIndex(pin => pin._id === popup._id) > -1;
     if (!pinExists) {
       setPopup(null);
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
+    }
   }, [state.pins.length]); // Listen if length of array changes
 
   const getUserPosition = () => {
@@ -116,7 +117,7 @@ const Map = ({ classes }) => {
   return (
     <div className={mobileSize ? classes.rootMobile : classes.root}>
       <ReactMapGL
-        mapboxApiAccessToken='pk.eyJ1IjoiY3NpbGxsYWciLCJhIjoiY2tpcWN6d2Q5MHl5cTJzbXY1bWQwczI1aSJ9.NkjdStm2UOItXfKZpmHWeg'
+        mapboxApiAccessToken='pk.eyJ1IjoiY3NpbGxsYWciLCJhIjoiY2tsMTY0a3FsMGV1NjJwb2V3YnE3c2w3dSJ9.iDj_Do9AAeYk_pkwDAvMfg'
         width='100vw'
         height='calc(100vh - 64px)'
         mapStyle='mapbox://styles/mapbox/streets-v9'
