@@ -16,7 +16,7 @@ import App from './pages/App';
 import Splash from './pages/Splash';
 
 const wsLink = new WebSocketLink({
-  uri: 'wss://localhost:4000/graphql',
+  uri: 'ws://localhost:4000/graphql',
   options: {
     reconnect: true
   }
