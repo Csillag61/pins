@@ -1,18 +1,17 @@
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
 require('dotenv').config();
 const mongoose = require('mongoose');
-
+const express = require('express')
 const typeDefs = require('./typeDefs');
 const resolvers = require('./resolvers');
 const { findOrCreateUser } = require('./controllers/userController');
-const HEADER_NAME = 'authorization';
 
 mongoose
   .connect(process.env.MONGO_URI, {
     //useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-         
+    dbName: 'pins',     
   })
   .then(() => console.log('MongoDB connection established'))
   .catch(err => console.log(err))
@@ -27,7 +26,7 @@ const server = new ApolloServer({
     let currentUser=null;
     
     try {
-      authToken = req.headers[HEADER_NAME]
+      authToken = req.headers.authorization
       if (authToken) {
         // Find or create a User.
         currentUser = await findOrCreateUser(authToken)
@@ -41,7 +40,13 @@ const server = new ApolloServer({
     return { authToken, currentUser };
   }
 });
+const app = express()
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || '*',
+  credentials: true,
+}
+server.applyMiddleware({ app, cors: corsOptions })
+app.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
   console.log(`Server listening on ${url}`);
 });
