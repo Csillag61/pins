@@ -27,7 +27,7 @@ const styles = theme => ({
     justifyContent: "center"
   },
   icon: {
-    margin: theme.spacing(1),
+    margin: theme.spacing.unit,
     fontSize: "80px"
   }
 });

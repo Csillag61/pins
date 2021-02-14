@@ -141,11 +141,11 @@ const styles = theme => ({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    paddingBottom: theme.spacing(1)
+    paddingBottom: theme.spacing.unit
   },
   contentField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
     width: "95%"
   },
   input: {
@@ -157,20 +157,20 @@ const styles = theme => ({
   },
   iconLarge: {
     fontSize: 40,
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing.unit
   },
   leftIcon: {
     fontSize: 20,
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing.unit
   },
   rightIcon: {
     fontSize: 20,
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing.unit
   },
   button: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    marginRight: theme.spacing(1),
+    marginTop: theme.spacing.unit*2,
+    marginBottom: theme.spacing.unit*2,
+    marginRight: theme.spacing.unit,
     marginLeft: 0
   }
 });
