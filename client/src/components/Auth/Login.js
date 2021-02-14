@@ -51,7 +51,6 @@ const Login = ({ classes }) => {
   isSignedIn={ true }
   buttonText="Login with Google"
   theme='dark'
-  cookiePolicy={"single_host_origin"}
   />
   </div>
   )
