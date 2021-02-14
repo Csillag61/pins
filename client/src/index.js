@@ -15,12 +15,12 @@ import ProtectedRoute from './ProtectedRoute';
 import App from './pages/App';
 import Splash from './pages/Splash';
 
-const wsLink = new WebSocketLink({
-  uri: 'wss://pinitall.herokuapp.com/graphql',
-  options: {
+const wsLink = new WebSocketLink(
+  'wss://pinitall.herokuapp.com/graphql',
+  {
     reconnect: true
   }
-})
+)
 
 const client = new ApolloClient({
   link: wsLink,
