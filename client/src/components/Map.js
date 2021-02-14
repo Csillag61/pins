@@ -4,14 +4,13 @@ import ReactMapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
 import { withStyles } from '@material-ui/core/styles';
 //import differenceInMinutes from 'date-fns/difference_in_minutes';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Blog from './Blog';
 import Context from '../context';
 import PinIcon from './PinIcon';
-import * as ACTIONS from '../actions';
+//import * as ACTIONS from '../actions';
 import { useClient } from '../client';
 import { GET_PINS_QUERY } from '../graphql/queries';
 import { DELETE_PIN_MUTATION } from '../graphql/mutations';
@@ -22,7 +21,6 @@ import {
   PIN_DELETED_SUBSCRIPTION
 } from "../graphql/subscriptions";
 import 'mapbox-gl/dist/mapbox-gl.css';
-
 
 const differenceInMinutes = require('date-fns/differenceInMinutes')
 
@@ -36,20 +34,15 @@ const Map = ({ classes }) => {
   const client = useClient();
   const mobileSize = useMediaQuery("(max-width: 650px)");
   const { state, dispatch } = useContext(Context);
-
   useEffect(() => {
     getPins();
      }, []);
-
   const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
   const [userPosition, setUserPosition] = useState(null);
-
   useEffect(() => {
     getUserPosition();
      }, []);
-
   const [popup, setPopup] = useState(null);
-
   useEffect(() => {
     const pinExists =
       popup && state.pins.findIndex(pin => pin._id === popup._id) > -1;
@@ -70,7 +63,7 @@ const Map = ({ classes }) => {
 
   const getPins = async () => {
     const { getPins } = await client.request(GET_PINS_QUERY);
-    dispatch({ type: ACTIONS.GET_PINS, payload: getPins });
+    dispatch({ type: 'GET_PINS', payload: getPins });
   };
 
   /**
@@ -82,11 +75,11 @@ const Map = ({ classes }) => {
     // CLEAR SET_PIN FOR CREATING DRAFT
     setPopup(null);
     if (!state.draft) {
-      dispatch({ type: ACTIONS.CREATE_DRAFT });
+      dispatch({ type: 'CREATETE_DRAFT' });
     }
     const [longitude, latitude] = lngLat;
     dispatch({
-      type: ACTIONS.UPDATE_DRAFT,
+      type: 'UPDATE_DRAFT',
       payload: { longitude, latitude }
     });
   };
@@ -103,7 +96,7 @@ const Map = ({ classes }) => {
 
   const handleSelectPin = pin => {
     setPopup(pin);
-    dispatch({ type: ACTIONS.SET_PIN, payload: pin });
+    dispatch({ type: 'SET_PIN', payload: pin });
   };
 
   const isAuthUser = () => state.currentUser._id === popup.author._id;
@@ -162,9 +155,11 @@ const Map = ({ classes }) => {
             offsetLeft={-19}
             offsetTop={-37}
           >
-            <IconButton onClick={() => handleSelectPin(pin)}>
-              <PinIcon size={40} color={highlightNewPin(pin)} />
-            </IconButton>
+            <PinIcon 
+             onClick={() => handleSelectPin(pin)}
+             size={40} 
+             color={highlightNewPin(pin)} />
+            
           </Marker>
         ))}
         {/* Popup modal for existing pins */}
@@ -200,7 +195,7 @@ const Map = ({ classes }) => {
         onSubscriptionData={({ subscriptionData }) => {
           const { pinAdded } = subscriptionData.data;
           console.log({ pinAdded });
-          dispatch({ type: ACTIONS.CREATE_PIN, payload: pinAdded });
+          dispatch({ type: 'CREATE_PIN', payload: pinAdded });
         }}
       />
       <Subscription
@@ -208,7 +203,7 @@ const Map = ({ classes }) => {
         onSubscriptionData={({ subscriptionData }) => {
           const { pinUpdated } = subscriptionData.data;
           console.log({ pinUpdated });
-          dispatch({ type: ACTIONS.CREATE_COMMENT, payload: pinUpdated });
+          dispatch({ type: 'CREATE_COMMENT', payload: pinUpdated });
         }}
       />
       <Subscription
@@ -216,7 +211,7 @@ const Map = ({ classes }) => {
         onSubscriptionData={({ subscriptionData }) => {
           const { pinDeleted } = subscriptionData.data;
           console.log({ pinDeleted });
-          dispatch({ type: ACTIONS.DELETE_PIN, payload: pinDeleted });
+          dispatch({ type: 'DELETE_PIN', payload: pinDeleted });
         }}
       />
       <Blog />
