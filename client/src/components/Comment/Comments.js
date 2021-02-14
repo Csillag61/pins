@@ -6,7 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import distanceInWordsToNow from "date-fns/distanceInWordsToNow";
 
 const Comments = ({ comments, classes }) => (
   <List className={classes.root}>
@@ -26,7 +26,7 @@ const Comments = ({ comments, classes }) => (
               >
                 {comment.author.name}
               </Typography>{" "}
-              · {formatDistanceToNow(Number(comment.createdAt))} ago
+              · {distanceInWordsToNow(Number(comment.createdAt))} ago
             </>
           }
         />
