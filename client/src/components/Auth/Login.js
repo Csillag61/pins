@@ -7,9 +7,6 @@ import { BASE_URL } from "../../client";
 import Context from '../../context';
 
 import { ME_QUERY } from '../../graphql/queries.js';
-import {
-  LOGIN_USER, IS_LOGGED_IN
-} from '../../actions';
 
 const Login = ({ classes }) => {
   const { dispatch } = useContext(Context);
@@ -20,15 +17,15 @@ const Login = ({ classes }) => {
         headers: { authorization: idToken }
       });
       const { me } = await client.request(ME_QUERY);
-      dispatch({ type: LOGIN_USER, payload: me });
-      dispatch({ type: IS_LOGGED_IN, payload: googleUser.isSignedIn() });
+      dispatch({ type: 'LOGIN_USER', payload: me });
+      dispatch({ type: 'IS_LOGGED_IN', payload: googleUser.isSignedIn() });
     } catch (err) {
       onFailure();
-      dispatch({ type: IS_LOGGED_IN, payload: false });
     }
   };
   const onFailure = err => {
     console.error('Error logging in ', err);
+    dispatch({ type: 'IS_LOGGED_IN', payload: false });
   };
 
   return (

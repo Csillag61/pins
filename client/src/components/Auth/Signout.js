@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {GoogleLogout} from 'react-google-login';
 import { withStyles } from "@material-ui/core/styles";
-import {ExitToApp} from "@material-ui/icons";
+import {ExitToAppIcon} from "@material-ui/icons";
 import {Typography} from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Context from "../../context";
@@ -28,7 +28,7 @@ const Signout = ({ classes }) => {
         >
           Signout
         </Typography>
-        <ExitToApp className={classes.buttonIcon} />
+        <ExitToAppIcon className={classes.buttonIcon} />
       </span>
     )}
   />
