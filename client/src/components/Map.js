@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from 'react';
 import ReactMapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
 import { withStyles } from '@material-ui/core/styles';
@@ -37,7 +38,7 @@ const Map = ({ classes }) => {
   const { state, dispatch } = useContext(Context);
 
   useEffect(() => {
-    getPins()
+    getPins();
      }, []);
 
   const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
@@ -50,7 +51,6 @@ const Map = ({ classes }) => {
   const [popup, setPopup] = useState(null);
 
   useEffect(() => {
-    
     const pinExists =
       popup && state.pins.findIndex(pin => pin._id === popup._id) > -1;
     if (!pinExists) {
