@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ReactMapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
 import { withStyles } from '@material-ui/core/styles';
-//import differenceInMinutes from 'date-fns/difference_in_minutes';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
@@ -10,7 +9,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Blog from './Blog';
 import Context from '../context';
 import PinIcon from './PinIcon';
-//import * as ACTIONS from '../actions';
 import { useClient } from '../client';
 import { GET_PINS_QUERY } from '../graphql/queries';
 import { DELETE_PIN_MUTATION } from '../graphql/mutations';
