@@ -17,7 +17,6 @@ import Splash from './pages/Splash';
 
 const wsLink = new WebSocketLink({
   uri: 'wss:https://pinitall.herokuapp.com/graphql',
-  
   options: {
     reconnect: true
   }
