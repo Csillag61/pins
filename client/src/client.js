@@ -19,6 +19,6 @@ export const useClient = () => {
 
   return new GraphQLClient(BASE_URL, {
     headers: { authorization: idToken },
-      
+      mode: "cors"
   });
 };

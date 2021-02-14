@@ -21,9 +21,11 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   playground: true,
+  cors: true,
   context: async ({ req }) => {
     let authToken=null;
     let currentUser=null;
+    
     try {
       authToken = req.headers[HEADER_NAME]
       if (authToken) {
