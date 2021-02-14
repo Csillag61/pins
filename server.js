@@ -32,7 +32,7 @@ const server = new ApolloServer({
         currentUser = await findOrCreateUser(authToken)
       }
     } catch (err){
-      console.warn(
+      console.error(
         `Unable to authenticate using auth token: ${authToken}`,
         err
       );
