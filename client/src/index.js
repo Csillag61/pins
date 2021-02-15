@@ -5,7 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import * as serviceWorker from './serviceWorker';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from "apollo-client";
-import { WebSocketLink } from "apollo-link-ws";
+import { WebSocketLink } from "@apollo/client/link/ws";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 import Context from './context';
@@ -15,12 +15,12 @@ import ProtectedRoute from './ProtectedRoute';
 import App from './pages/App';
 import Splash from './pages/Splash';
 
-const wsLink = new WebSocketLink(
-  'wss://pinitall.herokuapp.com/graphql',
-  {
+const wsLink = new WebSocketLink({
+  uri:'wss://pinitall.herokuapp.com/graphql',
+  options:{
     reconnect: true
   }
-)
+});
 
 const client = new ApolloClient({
   link: wsLink,
